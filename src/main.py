@@ -5,7 +5,7 @@ application = Flask(__name__)
 
 @application.route('/')
 def index():
-    return "Home page"
+    return render_template('index.html')
 
 @application.route('/auth/login')
 def login():
@@ -14,3 +14,8 @@ def login():
 @application.route('/admin/')
 def admin():
     return "Admin page"
+
+
+@application.route('/strava/authorize')
+def strava():
+    return "Strava app authorization"
