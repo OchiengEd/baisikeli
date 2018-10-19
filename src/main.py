@@ -3,6 +3,7 @@ from flask import Flask, render_template, redirect, request
 from baisikeli import Strava
 
 application = Flask(__name__)
+strava = Strava()
 
 @application.route('/')
 def index():
@@ -16,10 +17,12 @@ def login():
 def admin():
     return "Admin page"
 
+@application.route('/admin/connect')
+def strava_connect():
+    return redirect(strava.get_authorization_url())
 
 @application.route('/strava/authorization')
 def strava_authorization():
-    strava = Strava()
     access_token = strava.get_access_token(request.args.get('code'))
     if access_token is not None:
-        return render_tamplate('connected.html')
+        return access_token

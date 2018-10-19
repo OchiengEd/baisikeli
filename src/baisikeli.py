@@ -51,8 +51,17 @@ class Strava:
     def get_access_token(self, code):
         return self.api_client.exchange_code_for_token(client_id=self.app_data['client_id'], client_secret=self.app_data['client_secret'], code=code)
 
-    def get_cyclist_info(self):
-        pass
+    def get_cyclist_info(self, access_code, athlete_id = None):
+        headers = {'Authorization': 'Bearer: {}'.format(access_code)}
+        url = 'https://www.strava.com/api/v3/athlete' if access_code is None \
+            else 'https://www.strava.com/api/v3/athlete/{}'.format(athlete_id)
+
+        print(url)
+        # request = requests.get(url, headers=headers)
+        # if request.status_code == 200:
+        #     print(request.content)
+
+
 
     def get_activities(self):
         pass
@@ -60,5 +69,4 @@ class Strava:
 
 if __name__ == '__main__':
     strava = Strava()
-    url = strava.get_authorization_url()
-    print(url)
+    strava.get_cyclist_info('access_code', '1237')
