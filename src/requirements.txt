@@ -1,0 +1,5 @@
+stravalib
+gunicorn
+configparser
+flask
+requests
