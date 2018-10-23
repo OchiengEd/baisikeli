@@ -1,5 +1,5 @@
 from configparser import ConfigParser
-import json
+import json, sys
 
 class Configuration:
 
@@ -28,7 +28,7 @@ class Configuration:
         default_config.set('mongo', 'password', 'baisikelipasswd')
         default_config.set('mongo', 'host', '127.0.0.1')
         default_config.set('mongo', 'port', '27017')
-        default_config.set('database', 'baisikeli')
+        default_config.set('mongo', 'database', 'baisikeli')
 
         with open(self.config_file, 'w') as application_config:
             default_config.write(application_config)
