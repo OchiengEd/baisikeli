@@ -24,6 +24,10 @@ class DataStore:
 	def show_collections(self):
 		return self.db.list_collection_names()
 
+	def store_activities(self, activities):
+		activities_collection = self.db['activities']
+		activities_collection.insert_many(activities['activities'])
+
 def main():
 	ds = DataStore()
 	print(ds.show_collections())

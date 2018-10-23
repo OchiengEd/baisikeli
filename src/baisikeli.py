@@ -59,5 +59,7 @@ class Strava:
 
 if __name__ == '__main__':
     strava = Strava()
+    model = DataStore()
     with open('token', 'r') as token_f:
-        print(type( strava.get_cyclist_info(token_f.readline().strip()) ))
+        rides = strava.get_activities(token_f.readline().strip())
+        model.store_activities(rides)
