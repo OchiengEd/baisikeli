@@ -33,6 +33,7 @@ class Strava:
 
     # name, start_date, average_speed, max_sped, athlete[id], average_heartrate, max_heartrate, timezone
     def get_activities(self, access_code, athlete_id = None):
+        activities = []
         headers = {'Authorization': 'Bearer {}'.format(access_code)}
         url = 'https://www.strava.com/api/v3/activities'
         if athlete_id is not None:
@@ -52,10 +53,11 @@ class Strava:
                 if 'average_heartrate' in ride.keys():
                     ride_stats['average_hr'] = ride['average_heartrate']
                     ride_stats['max_hr'] = ride['max_heartrate']
-                print(ride_stats)
+                activities.append(ride_stats)
+        return { 'activities': activities }
 
 
 if __name__ == '__main__':
     strava = Strava()
     with open('token', 'r') as token_f:
-        strava.get_activities(token_f.readline().strip())
+        print(type( strava.get_cyclist_info(token_f.readline().strip()) ))
