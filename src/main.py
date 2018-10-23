@@ -11,7 +11,7 @@ def index():
 
 @application.route('/auth/login')
 def login():
-    return "Login form"
+    return render_template('login.html')
 
 @application.route('/admin/')
 def admin():
