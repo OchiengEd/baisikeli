@@ -27,3 +27,16 @@ class DataStore:
 	def store_activities(self, activities):
 		activities_collection = self.db['activities']
 		activities_collection.insert_many(activities['activities'])
+
+class Auth_Model(DataStore):
+
+	def __init__(self):
+		super().__init__()
+		user_collection = self.db['user']
+
+	def create_user_account(self, user):
+		user_collection.insert(user)
+
+	def authenticate_user(self, user):
+		input_password = user['password']
+		user_collection.find({'username': user['username'] })
