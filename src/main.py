@@ -1,12 +1,22 @@
 #!/usr/bin/env python3
 from werkzeug.security import generate_password_hash, check_password_hash
+from flask_login import current_user, LoginManager, login_required, logout_user, login_user, UserMixin
 from flask import Flask, render_template, redirect, request
 from baisikeli import Strava
 from model import Auth_Model
 
 application = Flask(__name__)
+login_manager = LoginManager(application)
 strava = Strava()
 auth = Auth_Model()
+
+class User(UserMixin):
+
+    def __init__(self):
+        pass
+
+    def __repr__(self):
+        pass
 
 @application.route('/')
 def index():
@@ -47,8 +57,10 @@ def create_user():
         return render_template('signup.html')
 
 @application.route('/admin/')
+# @login_required
 def admin():
-    return "Admin page"
+    print(current_user.is_authenticated)
+    return render_template('admin.html')
 
 @application.route('/admin/connect')
 def strava_connect():
