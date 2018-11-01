@@ -1,5 +1,6 @@
 # Application specific resources
 baisikeli.conf
+token
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

@@ -2,31 +2,103 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Baisikeli(swahili for bicycle)</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <title>.::.Home</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/baisikeli.css') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   </head>
   <body>
 
-  <div class="navbar navbar-expand-lg fixed-top navbar-light bg-light">
+  <nav>
     <div class="container">
-      <a href="#" class="navbar-brand">Baisikeli</a>
-      <div class="collapse navbar-collapse" id="navbarResponsive">
-          <ul class="navbar-nav mr-auto">
-            <li class="nav-item active"><a href="#home" class="nav-link">Home</a></li>
-            <li class="nav-item"><a href="#rides" class="nav-link">Rides</a></li>
-          </ul>
+    <div class="nav-wrapper deep-orange darken-3">
+      <a href="#" class="brand-logo large"><i class="large material-icons">directions_bike</i>Baisikeli</a>
+      <ul id="nav-mobile" class="right hide-on-med-and-down">
+        <li><a href="#">Home</a></li>
+        <li><a href="#">Rides</a></li>
+      </ul>
+    </div>
+  </div><!-- end container -->
+  </nav>
+
+  <!-- Banner image -->
+  <section>
+  </section>
+
+  <!-- Main container -->
+  <section class="ride-stats" id="stats">
+    <div class="container">
+      <div class="row">
+        <div class="col s12 m4">
+          <div class="card">
+            <span class="card-title">Distance</span>
+            <div class="card-content">
+              Distance ridden this month
+            </div><!-- card content -->
+          </div>
+        </div><!-- end column -->
+
+        <div class="col s12 m4">
+          <div class="card">
+            <span class="card-title">Speed</span>
+            <div class="card-content">
+              Average speed through the month
+            </div><!-- card content -->
+          </div>
+        </div><!-- end column -->
+
+        <div class="col s12 m4">
+          <div class="card">
+            <span class="card-title">Elevation</span>
+            <div class="card-content">
+              Cumulative elevation in a month
+            </div><!-- card content -->
+          </div>
+        </div><!-- end column -->
+
       </div>
-    </div><!-- end container -->
-  </div><!-- End Navbar -->
+    </div>
+  </section>
 
+<section class="group-rides" id="rides">
   <div class="container">
-    Landing page
+    <div class="row">
+      <div class="col s8 m5">
+        <div class="z-depth-3">
 
-    <footer class="copyright">Copyright &copy; 2018 </footer>
-  </div><!-- container class -->
+          <ul class="collection with-header">
+            <li class="collection-header"><h5 class="red-text text-lighten-2">Chain Reaction San Antonio</h5></li>
+            <li class="collection-item avatar">
+              <i class="material-icons circle blue white-text">map</i>
+              <span class="title">Ride name</span>
+              <p>Brief about ride if any</p>
+            </li>
+            <li class="collection-item avatar">
+              <i class="material-icons circle blue white-text">map</i>
+              <span class="title">Ride name</span>
+              <p>Brief about ride if any</p>
+            </li>
+          </ul>
 
+        </div>
+      </div><!-- ride column -->
+    </div><!-- end row -->
+  </div><!-- end container -->
+</section>
+
+  <!-- Footer -->
+  <footer class="page-footer blue-grey lighten-5">
+    <div class="container">
+      <div class="row">
+        <div class="col s5 left">
+          <span class="blue-text text-darken-4">Gone cycling</span>
+        </div>
+      </div>
+
+    </div>
+  </footer>
   <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
   </body>
 </html>

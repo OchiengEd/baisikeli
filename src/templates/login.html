@@ -1,27 +1,80 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html>
   <head>
     <meta charset="utf-8">
-    <title>Baisikeli::Login</title>
-    <link rel="stylesheet" href="../static/css/master.css">
+    <title>.::. Login</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/baisikeli.css') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   </head>
-  <body>
+  <body class="login-page">
 
-<div class="content">
+  <nav>
+    <div class="container">
+    <div class="nav-wrapper deep-orange darken-3">
+      <a href="#" class="brand-logo large"><i class="large material-icons">directions_bike</i>Baisikeli</a>
+      <ul id="nav-mobile" class="right hide-on-med-and-down">
+        <li><a href="#">Home</a></li>
+        <li><a href="#">Rides</a></li>
+      </ul>
+    </div>
+  </div><!-- end container -->
+  </nav>
 
-  <div class="login-box">
-    <img class="avatar" src="../static/img/login-icon.png" />
-    <h1>Login Here</h1>
-    <form class="login-form" action="/auth/login" method="post">
-      <input type="text" name="username" value="" placeholder="Username">
-      <input type="password" name="password" value="" placeholder="password">
-      <input type="submit" name="login" value="Login">
-      <a href="#">Forgot yout password?</a><br />
-      <a href="#">Don't have an account?</a>
-    </form>
+  <!-- Main container -->
+  <section id="stats">
+    <div class="container">
 
-  </div>
+      <div class="row">
 
-</div>
+        <div class="col s12 m6 l4 right">
+          <div class="card">
+            <span class="card-title center"><h4>Login</h4></span>
+            <div class="card-content">
+              <form class="" action="/auth/login" id="login" method="post">
+                <div class="input-field">
+                  <input type="text" name="username" id="username" value="">
+                  <label for="username">Username</label>
+                </div>
+
+                <div class="input-field">
+                  <input type="password" name="password" id="password" value="">
+                  <label for="password">Password</label>
+                </div>
+
+
+                <label>
+                  <input id="indeterminate-checkbox" type="checkbox" />
+                  <span class="text-blue">Remember Me</span>
+                </label>
+
+                <div class="input-field">
+                  <input type="submit" class="btn blue waves-effect waves-light" value="Login" />
+                </div>
+
+              </form>
+            </div>
+          </div>
+        </div><!-- end column -->
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- Footer -->
+  <footer class="page-footer blue-grey lighten-5">
+    <div class="container">
+      <div class="row">
+        <div class="col s5 left">
+          <span class="blue-text text-darken-4">Gone cycling</span>
+        </div>
+      </div>
+
+    </div>
+  </footer>
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
   </body>
 </html>
