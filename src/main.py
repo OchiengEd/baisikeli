@@ -28,7 +28,7 @@ def login():
 
     return render_template('login.html', error=msg)
 
-@application.route('/auth/new', methods=['POST'])
+@application.route('/user/signup', methods=['POST'])
 def create_user():
     if request.method == 'POST':
         user = {
@@ -43,6 +43,8 @@ def create_user():
             auth.create_user_account(user)
 
         return redirect('/auth/login')
+    else:
+        return render_template('signup.html')
 
 @application.route('/admin/')
 def admin():
