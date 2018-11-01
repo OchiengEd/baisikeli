@@ -38,6 +38,11 @@ def login():
 
     return render_template('login.html', error=msg)
 
+@application.route('/auth/logout')
+def logout():
+    logout_user()
+    return redirect('/auth/login')
+
 @application.route('/user/signup', methods=['POST'])
 def create_user():
     if request.method == 'POST':
