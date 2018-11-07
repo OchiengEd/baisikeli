@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>.::. Login</title>
+    <title>.::. Create User</title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/baisikeli.css') }}">
@@ -23,7 +23,46 @@
   </nav>
 
   <!-- Main container -->
-  <div class="container"></div>
+  <div class="container">
+
+    <form class="" action="index.html" method="post">
+      <div class="row">
+        <div class="input-field col s6">
+          <input type="text" id="firstname" placeholder="John">
+          <label for="firstname">First Name</label>
+        </div>
+        <div class="input-field col s6">
+          <input type="text" id="lastname" placeholder="Doe">
+          <label for="lastname">Last name</label>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="input-field col s12">
+          <input type="text" name="email" value="" placeholder="user@domain.com">
+          <label for="email">E-mail</label>
+        </div>
+      </div>
+
+        <div class="row">
+          <div class="input-field col s6">
+            <input type="password" name="password1" placeholder="**************">
+            <label for="password1">Password</label>
+          </div>
+
+          <div class="input-field col s6">
+            <input type="password" name="password2" placeholder="**************">
+            <label for="password2">Confirm password</label>
+          </div>
+        </div>
+
+        <div class="row">
+          <input type="submit" value="Create" class="btn blue wave-effect waves-light">
+        </div>
+
+      </div><!-- container -->
+    </form>
+  </div>
 
 
   <!-- Footer -->
