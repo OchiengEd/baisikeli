@@ -46,11 +46,16 @@ def logout():
 @application.route('/user/signup', methods=['POST'])
 def create_user():
     if request.method == 'POST':
+
+        if request.values.get('password1') == request.values.get('password2'):
+            return render_template('signup.html', error="Passwords do not match!")
+        elif request.values.get('email') == request.values.get('email_confirm'):
+            return render_template('signup.html', error="Email addresses do not match!")
+
         user = {
-            'first_name': request.values.get('first_name'),
-            'last_name': request.values.get('last_name'),
+            'first_name': request.values.get('firstname'),
+            'last_name': request.values.get('lastname'),
             'email': request.values.get('email'),
-            'username': request.values.get('username'),
             'password': generate_password_hash(request.values.get('password'))
             }
 
