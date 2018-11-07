@@ -23,46 +23,60 @@
   </nav>
 
   <!-- Main container -->
-  <div class="container">
+  <section class="user-creation">
 
-    <form class="" action="index.html" method="post">
-      <div class="row">
-        <div class="input-field col s6">
-          <input type="text" id="firstname" placeholder="John">
-          <label for="firstname">First Name</label>
-        </div>
-        <div class="input-field col s6">
-          <input type="text" id="lastname" placeholder="Doe">
-          <label for="lastname">Last name</label>
-        </div>
-      </div>
+    <div class="container">
 
-      <div class="row">
-        <div class="input-field col s12">
-          <input type="text" name="email" value="" placeholder="user@domain.com">
-          <label for="email">E-mail</label>
-        </div>
-      </div>
-
+      <form  method="post" action="" id="user-signup" method="post">
         <div class="row">
+
           <div class="input-field col s6">
-            <input type="password" name="password1" placeholder="**************">
-            <label for="password1">Password</label>
+            <input type="text" id="firstname" placeholder="John">
+            <label for="firstname">First Name</label>
           </div>
 
           <div class="input-field col s6">
-            <input type="password" name="password2" placeholder="**************">
-            <label for="password2">Confirm password</label>
+            <input type="text" id="lastname" placeholder="Doe">
+            <label for="lastname">Last name</label>
           </div>
-        </div>
+        </div><!-- row -->
 
         <div class="row">
-          <input type="submit" value="Create" class="btn blue wave-effect waves-light">
-        </div>
+          <div class="input-field col s6">
+            <input type="text" name="email" value="" placeholder="user@domain.com">
+            <label for="email">E-mail</label>
+          </div>
 
-      </div><!-- container -->
-    </form>
-  </div>
+          <div class="input-field col s6">
+            <input type="text" name="email_confirm" value="" placeholder="user@domain.com">
+            <label for="email_confirm"> Confirm E-mail</label>
+          </div>
+        </div><!-- row -->
+
+          <div class="row">
+            <div class="input-field col s6">
+              <input type="password" name="password1" placeholder="**************">
+              <label for="password1">Password</label>
+            </div>
+
+            <div class="input-field col s6">
+              <input type="password" name="password2" placeholder="**************">
+              <label for="password2">Confirm password</label>
+            </div>
+          </div><!-- row -->
+
+          <div class="row">
+            <div class="input-fields col s12">
+              <input type="submit" value="Create user" class="btn blue wave-effect waves-light">
+              <input type="button" value="Cancel" class="btn blue-grey lighten-1">
+            </div>
+          </div>
+
+        </div><!-- container -->
+      </form>
+
+    </div>
+  </section>
 
 
   <!-- Footer -->
