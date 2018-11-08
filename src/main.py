@@ -43,28 +43,40 @@ def logout():
     logout_user()
     return redirect('/auth/login')
 
-@application.route('/user/signup', methods=['POST'])
+@application.route('/user/signup', methods=['POST', 'GET'])
 def create_user():
+    warning = None
+
     if request.method == 'POST':
 
-        if request.values.get('password1') == request.values.get('password2'):
-            return render_template('signup.html', error="Passwords do not match!")
-        elif request.values.get('email') == request.values.get('email_confirm'):
-            return render_template('signup.html', error="Email addresses do not match!")
+        if request.values.get('firstname') is not None and \
+            request.values.get('password') is not None and \
+            request.values.get('password') == request.values.get('password_confirm') and \
+            request.values.get('email') == request.values.get('email_confirm'):
 
-        user = {
-            'first_name': request.values.get('firstname'),
-            'last_name': request.values.get('lastname'),
+            user = {
+            'firstname': request.values.get('firstname'),
+            'lastname': request.values.get('lastname'),
             'email': request.values.get('email'),
             'password': generate_password_hash(request.values.get('password'))
             }
 
-        if username is not None and password is not None:
-            auth.create_user_account(user)
+            print(user)
+            # auth.create_user_account(user)
 
-        return redirect('/auth/login')
+            return redirect('/auth/login')
+
+        elif request.values.get('password') != request.values.get('password_confirm'):
+
+            warning = "Entered passwords not match"
+            return render_template('signup.html', error=warning)
+
+        elif request.values.get('email') != request.values.get('email_confirm'):
+
+            warning = "Entered email addresses do not match"
+            return render_template('signup.html', error=warning)
     else:
-        return render_template('signup.html')
+        return render_template('signup.html', error=warning)
 
 @application.route('/admin/')
 # @login_required
