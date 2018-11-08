@@ -45,10 +45,11 @@ class Configuration:
     def get_db_connection_string(self):
         app_data = self.app_config
         app_data.read(self.config_file)
-        db_uri = "mongodb://%s:%s@%s:%s" % (
+        db_uri = "mongodb://%s:%s@%s:%s/%s?authSource=admin" % (
                 app_data['mongo']['username'],
                 app_data['mongo']['password'],
                 app_data['mongo']['host'],
-                app_data['mongo']['port']
+                app_data['mongo']['port'],
+                app_data['mongo']['database']
                 )
-        return json.dumps({ 'connection_string': db_uri, 'db': app_data['mongo']['database'] })
+        return json.dumps({ 'connection_string': db_uri })
