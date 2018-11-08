@@ -6,6 +6,7 @@ from baisikeli import Strava
 from model import Auth_Model
 
 application = Flask(__name__)
+application.secret_key = '45efd575-e438-4e77-bd01-9e8184292851'
 login_manager = LoginManager(application)
 strava = Strava()
 auth = Auth_Model()
@@ -20,11 +21,20 @@ class User(UserMixin):
     def __repr__(self):
         pass
 
+    def set_id(self, id):
+        self.id = id
+
     def get_id(self):
         return self.id
 
     def get_email(self):
         return self.email
+
+    def set_email(self, email):
+        self.email = email
+
+    def set_firstname(self, firstname):
+        self.firstname = firstname
 
     def get_firstname(self):
         return self.firstname
@@ -44,6 +54,9 @@ def login():
         user = auth.get_user(email)
 
         if check_password_hash(user['password'], password):
+            authenticated_user = User(user['_id'], user['firstname'], user['email'])
+            login_user(authenticated_user)
+
             return redirect('/admin')
         else:
             msg="An invalid username/password was used"
