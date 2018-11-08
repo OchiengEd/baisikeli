@@ -12,11 +12,23 @@ auth = Auth_Model()
 
 class User(UserMixin):
 
-    def __init__(self):
-        pass
+    def __init__(self, id, firstname, email):
+        self.id = id
+        self.firstname = firstname
+        self.email = email
 
     def __repr__(self):
         pass
+
+    def get_id(self):
+        return self.id
+
+    def get_email(self):
+        return self.email
+
+    def get_firstname(self):
+        return self.firstname
+
 
 @application.route('/')
 def index():
@@ -27,9 +39,9 @@ def login():
     msg = None
 
     if request.method == 'POST':
-        username = request.values.get('username')
+        email = request.values.get('email')
         password = request.values.get('password')
-        user = auth.authenticate_user(username)
+        user = auth.get_user(email)
 
         if check_password_hash(user['password'], password):
             return redirect('/admin')
@@ -61,8 +73,7 @@ def create_user():
             'password': generate_password_hash(request.values.get('password'))
             }
 
-            print(user)
-            # auth.create_user_account(user)
+            auth.create_user_account(user)
 
             return redirect('/auth/login')
 
