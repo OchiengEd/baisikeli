@@ -4,6 +4,7 @@ from flask_login import current_user, LoginManager, login_required, logout_user,
 from flask import Flask, render_template, redirect, request
 from baisikeli import Strava
 from model import Auth_Model
+from uuid import uuid4
 
 application = Flask(__name__)
 application.secret_key = '45efd575-e438-4e77-bd01-9e8184292851'
@@ -44,6 +45,10 @@ class User(UserMixin):
 def index():
     return render_template('index.html')
 
+@login_manager.user_loader
+def load_user(user_id):
+    return None
+
 @application.route('/auth/login', methods=['POST', 'GET'])
 def login():
     msg = None
@@ -54,7 +59,7 @@ def login():
         user = auth.get_user(email)
 
         if check_password_hash(user['password'], password):
-            authenticated_user = User(user['_id'], user['firstname'], user['email'])
+            authenticated_user = User(user['user_id'], user['firstname'], user['email'])
             login_user(authenticated_user)
 
             return redirect('/admin')
@@ -80,6 +85,7 @@ def create_user():
             request.values.get('email') == request.values.get('email_confirm'):
 
             user = {
+            'user_id': str(uuid4()),
             'firstname': request.values.get('firstname'),
             'lastname': request.values.get('lastname'),
             'email': request.values.get('email'),
@@ -103,7 +109,7 @@ def create_user():
         return render_template('signup.html', error=warning)
 
 @application.route('/admin/')
-# @login_required
+@login_required
 def admin():
     print(current_user.is_authenticated)
     return render_template('admin.html')
