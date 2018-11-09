@@ -62,7 +62,6 @@ def login():
 
         if check_password_hash(user['password'], password):
             authenticated_user = User(user['firstname'], user['email'])
-            print('Login successful!')
             login_user(authenticated_user)
 
             return redirect('/admin')
