@@ -4,41 +4,43 @@ from flask_login import current_user, LoginManager, login_required, logout_user,
 from flask import Flask, render_template, redirect, request
 from baisikeli import Strava
 from model import Auth_Model
-from uuid import uuid4
+import os
 
 application = Flask(__name__)
-application.secret_key = '45efd575-e438-4e77-bd01-9e8184292851'
+application.secret_key = os.urandom(24)
 login_manager = LoginManager(application)
+login_manager.login_view = '/auth/login'
 strava = Strava()
 auth = Auth_Model()
 
 class User(UserMixin):
 
-    def __init__(self, id, firstname, email):
-        self.id = id
+    def __init__(self, firstname, email):
         self.firstname = firstname
         self.email = email
 
     def __repr__(self):
-        pass
-
-    def set_id(self, id):
-        self.id = id
+        return '<{}:{}>'.format(self.firstname, self.email)
 
     def get_id(self):
-        return self.id
-
-    def get_email(self):
-        return self.email
-
-    def set_email(self, email):
-        self.email = email
-
-    def set_firstname(self, firstname):
-        self.firstname = firstname
+        return str(self.email)
 
     def get_firstname(self):
         return self.firstname
+
+    def is_authenticated(self):
+        return True
+
+    def is_active(self):
+        return True
+
+    def is_anonymous(self):
+        return False
+
+    @classmethod
+    def get(cls, user_id):
+        user = auth.get_user(user_id)
+        return cls(user['firstname'], user['email'])
 
 
 @application.route('/')
@@ -47,7 +49,7 @@ def index():
 
 @login_manager.user_loader
 def load_user(user_id):
-    return None
+    return User.get(user_id)
 
 @application.route('/auth/login', methods=['POST', 'GET'])
 def login():
@@ -59,7 +61,8 @@ def login():
         user = auth.get_user(email)
 
         if check_password_hash(user['password'], password):
-            authenticated_user = User(user['user_id'], user['firstname'], user['email'])
+            authenticated_user = User(user['firstname'], user['email'])
+            print('Login successful!')
             login_user(authenticated_user)
 
             return redirect('/admin')
@@ -73,7 +76,7 @@ def logout():
     logout_user()
     return redirect('/auth/login')
 
-@application.route('/user/signup', methods=['POST', 'GET'])
+@application.route('/auth/signup', methods=['POST', 'GET'])
 def create_user():
     warning = None
 
@@ -85,7 +88,6 @@ def create_user():
             request.values.get('email') == request.values.get('email_confirm'):
 
             user = {
-            'user_id': str(uuid4()),
             'firstname': request.values.get('firstname'),
             'lastname': request.values.get('lastname'),
             'email': request.values.get('email'),
@@ -111,7 +113,6 @@ def create_user():
 @application.route('/admin/')
 @login_required
 def admin():
-    print(current_user.is_authenticated)
     return render_template('admin.html')
 
 @application.route('/admin/connect')
