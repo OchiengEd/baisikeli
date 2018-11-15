@@ -10,8 +10,8 @@ application = Flask(__name__)
 application.secret_key = os.urandom(24)
 login_manager = LoginManager(application)
 login_manager.login_view = '/auth/login'
+auth_model = Auth_Model()
 strava = Strava()
-auth = Auth_Model()
 
 class User(UserMixin):
 
@@ -39,7 +39,7 @@ class User(UserMixin):
 
     @classmethod
     def get(cls, user_id):
-        user = auth.get_user(user_id)
+        user = auth_model.get_user(user_id)
         return cls(user['firstname'], user['email'])
 
 
@@ -58,7 +58,7 @@ def login():
     if request.method == 'POST':
         email = request.values.get('email')
         password = request.values.get('password')
-        user = auth.get_user(email)
+        user = auth_model.get_user(email)
 
         if check_password_hash(user['password'], password):
             authenticated_user = User(user['firstname'], user['email'])
@@ -93,7 +93,7 @@ def create_user():
             'password': generate_password_hash(request.values.get('password'))
             }
 
-            auth.create_user_account(user)
+            auth_model.create_user_account(user)
 
             return redirect('/auth/login')
 
@@ -114,12 +114,18 @@ def create_user():
 def admin():
     return render_template('admin.html')
 
-@application.route('/admin/connect')
+@application.route('/strava/connect')
+@login_required
 def strava_connect():
     return redirect(strava.get_authorization_url())
 
 @application.route('/strava/authorization')
+@login_required
 def strava_authorization():
+    if current_user.is_authenticated:
+        email = current_user.email
     access_token = strava.get_access_token(request.args.get('code'))
     if access_token is not None:
-        return access_token
+        athlete = {'email': email, 'token': access_token}
+        auth_model.set_strava_token(athlete)
+        return redirect('/admin')
