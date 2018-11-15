@@ -55,11 +55,3 @@ class Strava:
                     ride_stats['max_hr'] = ride['max_heartrate']
                 activities.append(ride_stats)
         return { 'activities': activities }
-
-
-if __name__ == '__main__':
-    strava = Strava()
-    model = DataStore()
-    with open('token', 'r') as token_f:
-        rides = strava.get_activities(token_f.readline().strip())
-        model.store_activities(rides)
