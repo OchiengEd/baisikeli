@@ -47,9 +47,3 @@ class Auth_Model(DataStore):
 
 	def set_strava_token(self, athlete):
 		self.user_collection.update_one({'email': athlete['email']}, {'$set' : {'strava_token': athlete['token']}}, upsert=False)
-
-
-if __name__ == '__main__':
-	user = Auth_Model()
-	print(user.get_user('ochienged@gmail.com'))
-	# user.create_user_account({'lastname': 'Ochieng', 'firstname': 'Edmund', 'password': 'pbkdf2:sha256:50000$l8WBC6tV$fc34765f759137dcd167aa44fc3fe629376322d96d782906cc6376366c10c7f3', 'email': 'ochienged@gmail.com'})
