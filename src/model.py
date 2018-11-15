@@ -1,4 +1,5 @@
 from pymongo import MongoClient
+from pymongo.errors import OperationFailure
 from settings import Configuration
 import json
 
@@ -9,9 +10,12 @@ class DataStore:
 		self.db = self.connect()
 
 	def connect(self):
-		database = json.loads(self.configs.get_db_connection_string())
-		client = MongoClient(database['connection_string'])
-		return client.get_database()
+		try:
+			database = json.loads(self.configs.get_db_connection_string())
+			client = MongoClient(database['connection_string'])
+			return client.get_database()
+		except OperationFailure:
+			print("Error connecting to database. \nPlease check credentials in config file")
 
 	def add_strava_athlete(self, strava_athlete):
 		athlete_collection = self.db['athletes']
@@ -32,7 +36,7 @@ class Auth_Model(DataStore):
 
 	def __init__(self):
 		super().__init__()
-		self.user_collection = self.db['user']
+		self.user_collection = self.db['users']
 
 	def create_user_account(self, user):
 		self.user_collection.insert(user)
