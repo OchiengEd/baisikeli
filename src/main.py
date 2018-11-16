@@ -124,8 +124,11 @@ def strava_connect():
 def strava_authorization():
     if current_user.is_authenticated:
         email = current_user.email
-    access_token = strava.get_access_token(request.args.get('code'))
-    if access_token is not None:
-        athlete = {'email': email, 'token': access_token}
-        auth_model.set_strava_token(athlete)
-        return redirect('/admin')
+
+        access_token = strava.get_access_token(request.args.get('code'))
+        if access_token is not None:
+            athlete = {'email': email, 'token': access_token}
+            auth_model.set_strava_token(athlete)
+            return redirect('/admin')
+        else:
+            return redirect('/auth/login')
