@@ -18,7 +18,12 @@ class Strava:
         return self.api_client.authorization_url(client_id=self.app_data['client_id'], redirect_uri=self.app_data['redirect_uri'])
 
     def get_access_token(self, code):
-        return self.api_client.exchange_code_for_token(client_id=self.app_data['client_id'], client_secret=self.app_data['client_secret'], code=code)
+        try:
+            return access_token = self.api_client.exchange_code_for_token(client_id=self.app_data['client_id'], client_secret=self.app_data['client_secret'], code=code)
+        except KeyError as ke:
+            print("We encountered a KeyError. The refresh_token key was not found!")
+
+    def refresh_access_token(self):
 
     def get_cyclist_info(self, access_code, athlete_id = None):
         headers = {'Authorization': 'Bearer {}'.format(access_code)}
