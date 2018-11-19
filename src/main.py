@@ -117,18 +117,17 @@ def admin():
 @application.route('/strava/connect')
 @login_required
 def strava_connect():
-    return redirect(strava.get_authorization_url())
+    return redirect(strava.get_strava_authorization_url())
 
 @application.route('/strava/authorization')
 @login_required
 def strava_authorization():
     if current_user.is_authenticated:
-        email = current_user.email
 
-        access_token = strava.get_access_token(request.args.get('code'))
+        access_token = strava.get_strava_access_token(request.args.get('code'), current_user.email)
         if access_token is not None:
             athlete = {'email': email, 'token': access_token}
-            auth_model.set_strava_token(athlete)
+
             return redirect('/admin')
         else:
             return redirect('/auth/login')
