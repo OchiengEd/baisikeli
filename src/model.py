@@ -21,14 +21,14 @@ class Strava_Model(DataStore):
 
 	def __init__(self):
 		super().__init__()
-		self.athletes_collection = self.db['athletes']
+		self.tokens_collection = self.db['tokens']
 		self.activities_collection = self.db['activities']
 
-	def add_strava_athlete(self, strava_athlete):
-		self.athletes_collection.insert(strava_athlete)
+	def store_strava_token(self, strava_athlete):
+		self.tokens_collection.insert(strava_athlete)
 
 	def search_strava_athlete(self, email_address):
-		return self.athletes_collection.find({'email': email_address })
+		return self.tokens_collection.find({'email': email_address })
 
 	def store_activities(self, activities):
 		self.activities_collection.insert_many(activities['activities'])
