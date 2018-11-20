@@ -30,7 +30,7 @@ class Strava_Model(DataStore):
 	def get_strava_athlete_token(self, email_address):
 		return self.tokens_collection.find_one({'athlete_id': email_address })
 
-	def replace_strava_athlete_token(self, token):
+	def update_strava_athlete_token(self, token):
 		self.tokens_collection.updata_one({'athlete_id': token['athlete_id'] }, token)
 
 	def store_activities(self, activities):
