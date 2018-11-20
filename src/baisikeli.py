@@ -50,22 +50,20 @@ class Strava:
 
             return token
 
-    def renew_strava_access_token(self, refresh_token):
+    def renew_strava_access_token(self, email):
+        stored_token = self.get_strava_athlete_token(email)
+
         params = {
                 'client_id': self.app_data['client_id'],
                 'client_secret': self.app_data['client_secret'],
-                'refresh_token': refresh_token,
+                'refresh_token': stored_token['refresh_token'],
                 'grant_type': 'refresh_token'
                 }
 
         response = requests.post('https://www.strava.com/oauth/token', data=params)
         if response.status_code == 200:
             new_token = response.json()
-            new_token['athlete_id'] = email
-            new_token['strava_id'] = strava_id
-
             strava.update_strava_athlete_token(new_token)
-
             return new_token
 
     def is_access_token_expired(self, email):
@@ -75,9 +73,13 @@ class Strava:
         else:
             return True if self.get_current_time_in_epoch() > token['expires_at'] else False
 
-    def get_cyclist_info(self, access_token, athlete_id = None):
-        if is_access_token_expired(athlete_id):
+    def get_strava_access_token_from_db(self, email):
+        if is_access_token_expired(email):
+            return self.renew_strava_access_token(email)
+        else:
+            return strava.get_strava_athlete_token(email)
 
+    def get_cyclist_info(self, access_token, athlete_id = None):
         headers = {'Authorization': 'Bearer {}'.format(access_token)}
         url = 'https://www.strava.com/api/v3/athlete'
         if athlete_id is not None:
