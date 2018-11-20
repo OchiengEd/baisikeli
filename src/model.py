@@ -31,7 +31,8 @@ class Strava_Model(DataStore):
 		return self.tokens_collection.find_one({'athlete_id': email_address })
 
 	def update_strava_athlete_token(self, token):
-		self.tokens_collection.updata_one({'athlete_id': token['athlete_id'] }, token)
+		data = {'expires_at': token['expires_at'], 'refresh_token': token['refresh_token'], 'access_token': token['access_token']}
+		self.tokens_collection.updata_one({'athlete_id': token['athlete_id'] }, data)
 
 	def store_activities(self, activities):
 		self.activities_collection.insert_many(activities['activities'])
