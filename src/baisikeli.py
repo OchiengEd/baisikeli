@@ -23,6 +23,7 @@ class Strava:
         return 'https://www.strava.com/oauth/authorize?{}'.format(params)
 
     def get_strava_access_token(self, code, email_address):
+        token = None
         params = {
                 'client_id': self.app_data['client_id'],
                 'client_secret': self.app_data['client_secret'],
@@ -43,7 +44,7 @@ class Strava:
 
             self.db.store_strava_token(token)
 
-            return token['access_token']
+            return token
 
     def refresh_access_token(self):
         pass
