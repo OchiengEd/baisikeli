@@ -50,12 +50,17 @@ class Strava:
 
             return token
 
-    def is_access_token_valid(self, email):
+    def renew_srtava_access_token(self):
+        response = requests.post()
+        if response.status_code == 200:
+            print(response.json())
+
+    def is_access_token_expired(self, email):
         token = self.db.get_strava_athlete_token(email)
         if token is None:
             return False
         else:
-            return True if token['expires_at'] > self.get_current_time_in_epoch() else False
+            return True if self.get_current_time_in_epoch() > token['expires_at'] else False
 
     def get_cyclist_info(self, access_token, athlete_id = None):
         headers = {'Authorization': 'Bearer {}'.format(access_token)}
