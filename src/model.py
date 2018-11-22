@@ -32,7 +32,7 @@ class Strava_Model(DataStore):
 
 	def update_strava_athlete_token(self, token):
 		data = {'expires_at': token['expires_at'], 'refresh_token': token['refresh_token'], 'access_token': token['access_token']}
-		self.tokens_collection.updata_one({'athlete_id': token['athlete_id'] }, data)
+		self.tokens_collection.update_one({'athlete_id': token['athlete_id'] }, {'$set': data})
 
 	def store_activities(self, activities):
 		self.activities_collection.insert_many(activities['activities'])
