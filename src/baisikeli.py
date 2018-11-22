@@ -22,7 +22,7 @@ class Strava:
                             'redirect_uri': self.app_data['redirect_uri'],
                             'approval_prompt': 'auto',
                             'response_type': 'code',
-                            'scope': 'read'
+                            'scope': 'activity:read'
                             })
         return 'https://www.strava.com/oauth/authorize?{}'.format(params)
 
@@ -51,7 +51,7 @@ class Strava:
             return token
 
     def renew_strava_access_token(self, email):
-        stored_token = self.get_strava_athlete_token(email)
+        stored_token = self.db.get_strava_athlete_token(email)
 
         params = {
                 'client_id': self.app_data['client_id'],
@@ -63,7 +63,8 @@ class Strava:
         response = requests.post('https://www.strava.com/oauth/token', data=params)
         if response.status_code == 200:
             new_token = response.json()
-            strava.update_strava_athlete_token(new_token)
+            new_token['athlete_id'] = email
+            self.db.update_strava_athlete_token(new_token)
             return new_token
 
     def is_access_token_expired(self, email):
@@ -74,29 +75,33 @@ class Strava:
             return True if self.get_current_time_in_epoch() > token['expires_at'] else False
 
     def get_strava_access_token_from_db(self, email):
-        if is_access_token_expired(email):
+        if self.is_access_token_expired(email):
             return self.renew_strava_access_token(email)
         else:
-            return strava.get_strava_athlete_token(email)
+            return self.db.get_strava_athlete_token(email)
 
-    def get_cyclist_info(self, access_token, athlete_id = None):
-        headers = {'Authorization': 'Bearer {}'.format(access_token)}
+    # def get_cyclist_info(self, access_token, athlete_id = None):
+    def get_cyclist_info(self, email):
+        token = self.get_strava_access_token_from_db(email)
+
+        headers = {'Authorization': 'Bearer {}'.format(token['access_token'])}
         url = 'https://www.strava.com/api/v3/athlete'
-        if athlete_id is not None:
-            url = ''.join([url, '/', athlete_id])
 
         request = requests.get(url, headers=headers)
         if request.status_code == 200:
-            self.db.add_strava_athlete(request.json())
+            # self.db.add_strava_athlete(request.json())
             return request.json()
 
     # name, start_date, average_speed, max_sped, athlete[id], average_heartrate, max_heartrate, timezone
-    def get_activities(self, access_token, athlete_id = None):
+    def get_activities(self, email):
+        token = self.get_strava_access_token_from_db(email)
+        print(token)
+
         activities = []
-        headers = {'Authorization': 'Bearer {}'.format(access_token)}
+        headers = {'Authorization': 'Bearer {}'.format(token['access_token'])}
         url = 'https://www.strava.com/api/v3/activities'
-        if athlete_id is not None:
-            ''.join([url, '/', athlete_id])
+        if token['strava_id'] is not None:
+            ''.join([url, '/', str(token['strava_id']) ])
 
         response = requests.get(url, headers=headers)
         if response.status_code == 200:
@@ -104,10 +109,11 @@ class Strava:
                 ride_stats = {
                     'name': ride['name'],
                     'start_date': ride['start_date'],
-                    'athlete_id': ride['athlete']['id'],
+                    'strava_id': ride['athlete']['id'],
                     'average_speed': ride['average_speed'],
                     'max_speed': ride['max_speed'],
-                    'timezone': ride['timezone']
+                    'timezone': ride['timezone'],
+                    'athlete_id': email
                     }
                 if 'average_heartrate' in ride.keys():
                     ride_stats['average_hr'] = ride['average_heartrate']
