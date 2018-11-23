@@ -95,7 +95,6 @@ class Strava:
     # name, start_date, average_speed, max_sped, athlete[id], average_heartrate, max_heartrate, timezone
     def get_activities(self, email):
         token = self.get_strava_access_token_from_db(email)
-        print(token)
 
         activities = []
         headers = {'Authorization': 'Bearer {}'.format(token['access_token'])}
