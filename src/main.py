@@ -60,6 +60,9 @@ def login():
         password = request.values.get('password')
         user = auth_model.get_user(email)
 
+        if user is None:
+            raise Exception("User account for %s does not exist!" % email)
+
         if check_password_hash(user['password'], password):
             authenticated_user = User(user['firstname'], user['email'])
             login_user(authenticated_user)
@@ -127,6 +130,7 @@ def strava_authorization():
 
         access_token = strava.get_strava_access_token(request.args.get('code'), email)
         if access_token is not None:
-            athlete = {'email': email, 'token': access_token}
+
+            rides = strava.get_activities(access_token['email'])
 
         return redirect('/admin')
