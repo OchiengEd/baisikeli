@@ -37,6 +37,9 @@ class Strava_Model(DataStore):
 	def store_activities(self, activities):
 		self.activities_collection.insert_many(activities['activities'])
 
+	def get_athlete_activities(self, email_address):
+		return self.activities_collection.find({'athlete_id', email_address})
+
 class Auth_Model(DataStore):
 
 	def __init__(self):
